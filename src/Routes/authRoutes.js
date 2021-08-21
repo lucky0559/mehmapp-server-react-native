@@ -93,8 +93,7 @@ router.post('/signup', async(req, res) => {
 
         res.status(200).send({message:'Account Created! Please verify your email'})
 
-        // const token = jwt.sign({userId: user._id}, 'MY_MEHMAPP_KEY');
-        // res.send({token});
+        
     }
     catch(err) {
         res.status(422).send(err.message);
