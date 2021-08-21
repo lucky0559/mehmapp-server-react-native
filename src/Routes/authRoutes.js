@@ -1,0 +1,169 @@
+const express = require('express');
+const db = require('../db/database');
+const bcryptjs = require('bcryptjs')
+const saltRounds = 10;
+const nodemailer = require('nodemailer')
+const { google } = require('googleapis')
+const crypto = require('crypto')
+
+
+const router = express.Router();
+
+router.post('/signup', async(req, res) => {
+    const {fullname, email, phoneNumber, studentNumber} = req.body;
+
+    const password = req.body.password;
+    const password_hashed = await bcryptjs.hash(password, saltRounds);
+    const is_verified = false;
+
+    const email_token = crypto.randomBytes(64).toString('hex')
+
+    const check = await db.promise().query(`SELECT * FROM users WHERE email = '${email}' `);
+
+    if(check[0].length > 0) {
+        return res.status(422).send({msg:'This email is already used'});
+    }
+
+
+   
+ 
+    try {
+
+        await db.promise().query(`INSERT INTO users(fullname, email, password, phoneNumber, studentNumber, is_verified, email_token) VALUES('${fullname}', '${email}', '${password_hashed}', '${phoneNumber}', '${studentNumber}', '${is_verified}', '${email_token}') `)
+
+
+        const user = await db.promise().query(`SELECT * FROM users WHERE email = '${email}' `)
+
+        console.log(user[0][0])
+
+// verify email
+        
+        const CLIENT_ID = '141360318944-pj0qnlcj4kclrbrnok4fkduerlan0phd.apps.googleusercontent.com'
+        const CLIENT_SECRET = 'EmI2mCygfueXMrnchCbJcKV2'
+        const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
+        const REFRESH_TOKEN = '1//04jMyI9rGX-mvCgYIARAAGAQSNwF-L9Ir6TIPJzhuSIW9QtpN84rd4wDZhDx_53FBNUK6rcg1V158tRPo9nEzMZuTiGeSPPz2eRA'
+
+        const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
+        oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN })
+
+        sendMail = async() => {
+            try {
+                const accessToken = await oAuth2Client.getAccessToken();
+                
+                const transport = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        type: 'OAuth2',
+                        user: 'angelorabosa555@gmail.com',
+                        clientId: CLIENT_ID,
+                        clientSecret: CLIENT_SECRET,
+                        refreshToken: REFRESH_TOKEN,
+                        accessToken: accessToken
+                    }
+                })
+
+                const mailOptions = {
+                    from: 'MeHMApp <mehmapp@cvsu.edu.ph>',
+                    to: `${email}`,
+                    subject: 'MeHMApp Verify Your Email',
+                    text: `
+                        Hello ${fullname}!
+                        Please click the link below to verify your email
+                        http://${req.headers.host}/verify?token=${email_token}
+                    `,
+                    html: `
+                        <h1>Hello ${fullname}!</h1>
+                        <p>Please click the link below to verify your email</p>
+                        <button><h2><a href="http://${req.headers.host}/verify?token=${email_token}">Verify Email</a></h2></button>
+                    `
+                }
+
+                const result = await transport.sendMail(mailOptions)
+                return result
+
+
+            }
+            catch(error) {
+                return error
+            }
+        }
+
+        sendMail().then(result => console.log('Email is Sent', result))
+        .catch(error => console.log(error.message))
+
+        res.status(200).send('Account Created!')
+
+        // const token = jwt.sign({userId: user._id}, 'MY_MEHMAPP_KEY');
+        // res.send({token});
+    }
+    catch(err) {
+        res.status(422).send(err.message);
+       
+    }
+});
+
+
+
+//verify email 
+
+router.get('/verify', async(req, res, next) => {
+    try {
+        const user = await db.promise().query(`SELECT * FROM users WHERE email_token = '${req.query.token}' `)
+        if(!user[0][0]) {
+            return res.send("Error")
+        }
+        await db.promise().query(`UPDATE users SET is_verified = '${true}', email_token = '${''}' WHERE email_token = '${req.query.token}' `)
+        
+        res.status(200).send('Verified!')
+
+    }
+    catch(err) {
+        return next(err);
+    }
+})
+
+
+
+
+router.post('/signin', async(req,res) => {
+    const {email, password} = req.body;
+
+    if(!email || !password) {
+        return res.status(422).send({error: 'Must provide email and password -lucky'})
+    }
+
+    const check = await db.promise().query(`SELECT * FROM users WHERE email = '${email}' `)
+
+    
+
+    if(check[0].length <= 0 ) {
+        return res.status(400).send('Invalid Email or Passwordw')
+    }
+    
+
+    
+
+
+
+    const compare = await bcryptjs.compare(password, check[0][0].password);
+
+    if(compare) {
+        const if_verified = await db.promise().query(`SELECT * FROM users WHERE email = '${email}' && is_verified = '${false}' `)
+
+
+        if(if_verified[0].length > 0) {
+            return res.status(400).send('Please Verify Your Email First')
+        }
+
+        res.status(200).send("LoggedIn")
+    }
+    else {
+        res.status(400).send("Invalid Email or Password")
+    }
+
+
+   
+})
+
+
+module.exports = router;
