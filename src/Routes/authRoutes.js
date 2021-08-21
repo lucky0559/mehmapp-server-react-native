@@ -5,6 +5,7 @@ const saltRounds = 10;
 const nodemailer = require('nodemailer')
 const { google } = require('googleapis')
 const crypto = require('crypto')
+const jwt = require('jsonwebtoken')
 
 
 const router = express.Router();
@@ -153,6 +154,8 @@ router.post('/signin', async(req,res) => {
         if(if_verified[0].length > 0) {
             return res.status(400).send({message:'Please Verify Your Email First'})
         }
+
+        console.log(if_verified)
 
         res.status(200).send("LoggedIn")
     }
