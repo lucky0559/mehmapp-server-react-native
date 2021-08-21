@@ -21,7 +21,7 @@ router.post('/signup', async(req, res) => {
     const check = await db.promise().query(`SELECT * FROM users WHERE email = '${email}' `);
 
     if(check[0].length > 0) {
-        return res.status(422).send({msg:'This email is already used'});
+        return res.status(422).send({message:'This email is already used'});
     }
 
 
@@ -129,7 +129,7 @@ router.post('/signin', async(req,res) => {
     const {email, password} = req.body;
 
     if(!email || !password) {
-        return res.status(422).send({error: 'Must provide email and password -lucky'})
+        return res.status(422).send({message: 'Must provide email and password'})
     }
 
     const check = await db.promise().query(`SELECT * FROM users WHERE email = '${email}' `)
@@ -137,7 +137,7 @@ router.post('/signin', async(req,res) => {
     
 
     if(check[0].length <= 0 ) {
-        return res.status(400).send('Invalid Email or Passwordw')
+        return res.status(400).send({message:'Invalid Email or Password'})
     }
     
 
@@ -152,13 +152,13 @@ router.post('/signin', async(req,res) => {
 
 
         if(if_verified[0].length > 0) {
-            return res.status(400).send('Please Verify Your Email First')
+            return res.status(400).send({message:'Please Verify Your Email First'})
         }
 
         res.status(200).send("LoggedIn")
     }
     else {
-        res.status(400).send("Invalid Email or Password")
+        res.status(400).send({message:"Invalid Email or Password"})
     }
 
 
