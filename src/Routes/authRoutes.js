@@ -157,7 +157,7 @@ router.post('/signin', async(req,res) => {
 
         const token = jwt.sign({userId: if_verified.id}, 'MY_MEHMAPP_KEY')
 
-        res.status(200).send({token, email})
+        res.status(200).send({token})
     }
     else {
         res.status(400).send({message:"Invalid Email or Password"})
@@ -173,7 +173,7 @@ router.get('/getUser', async(req, res) => {
     const {email} = req.body.email
 
     const response = await db.promise().query(`SELECT fullname FROM users WHERE email = '${email}' `)
-    res.status(201).send({fullname: response.fullname})
+    res.status(200).send({fullname: response})
 })
 
 
