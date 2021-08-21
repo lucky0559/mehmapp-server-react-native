@@ -91,7 +91,7 @@ router.post('/signup', async(req, res) => {
         sendMail().then(result => console.log('Email is Sent', result))
         .catch(error => console.log(error.message))
 
-        res.status(200).send('Account Created!')
+        res.status(200).send({message:'Account Created! Please verify your email'})
 
         // const token = jwt.sign({userId: user._id}, 'MY_MEHMAPP_KEY');
         // res.send({token});
