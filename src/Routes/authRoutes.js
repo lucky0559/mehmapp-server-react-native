@@ -155,9 +155,11 @@ router.post('/signin', async(req,res) => {
             return res.status(400).send({message:'Please Verify Your Email First'})
         }
 
+        const user = await db.promise().query(`SELECT fullname FROM users WHERE email = '${email}' `)
+
         const token = jwt.sign({userId: if_verified.id}, 'MY_MEHMAPP_KEY')
 
-        res.status(200).send({token})
+        res.status(200).send({token, fullname: user})
     }
     else {
         res.status(400).send({message:"Invalid Email or Password"})
@@ -165,15 +167,6 @@ router.post('/signin', async(req,res) => {
 
 
    
-})
-
-
-router.get('/getUser', async(req, res) => {
-
-    const {email} = req.body.email
-
-    const response = await db.promise().query(`SELECT fullname FROM users WHERE email = '${email}' `)
-    res.status(200).send({fullname: response})
 })
 
 
