@@ -68,12 +68,12 @@ router.post('/signup', async(req, res) => {
                     to: `${email}`,
                     subject: 'MeHMApp Verify Your Email',
                     text: `
-                        Hello ${fullname}!
+                        Hello ${firstName}!
                         Please click the link below to verify your email
                         http://${req.headers.host}/verify?token=${email_token}
                     `,
                     html: `
-                        <h1>Hello ${fullname}!</h1>
+                        <h1>Hello ${firstName}!</h1>
                         <p>Please click the link below to verify your email</p>
                         <button><h2><a href="http://${req.headers.host}/verify?token=${email_token}">Verify Email</a></h2></button>
                     `
