@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken')
 const router = express.Router();
 
 router.post('/signup', async(req, res) => {
-    const {fullname, email, phoneNumber, studentNumber} = req.body;
+    const {firstName, lastName, email, phoneNumber, studentNumber} = req.body;
 
     const password = req.body.password;
     const password_hashed = await bcryptjs.hash(password, saltRounds);
@@ -30,7 +30,7 @@ router.post('/signup', async(req, res) => {
  
     try {
 
-        await db.promise().query(`INSERT INTO users(fullname, email, password, phoneNumber, studentNumber, is_verified, email_token) VALUES('${fullname}', '${email}', '${password_hashed}', '${phoneNumber}', '${studentNumber}', '${is_verified}', '${email_token}') `)
+        await db.promise().query(`INSERT INTO users(firstName, lastName, email, password, phoneNumber, studentNumber, is_verified, email_token) VALUES('${firstName}', '${lastName}', '${email}', '${password_hashed}', '${phoneNumber}', '${studentNumber}', '${is_verified}', '${email_token}') `)
 
 
         const user = await db.promise().query(`SELECT * FROM users WHERE email = '${email}' `)
