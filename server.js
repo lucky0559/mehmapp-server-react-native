@@ -20,6 +20,8 @@ app.get('/', (req,res) => {
     res.send('Hi Lucky');
 })
 
-app.listen(port || 3000, () => {
+const server = app.listen(port || 3000, () => {
     console.log(`Listening to Port`);
 });
+
+server.keepAliveTimeout = 61 * 1000;
