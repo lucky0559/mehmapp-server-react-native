@@ -5,8 +5,11 @@ const connection = mysql.createPool({
 });
 
 connection.query('SELECT 1 + 1 AS solution',(err, rows) => {
-    if(err) throw err;
-    console.log('The solution is:', rows[0].solution)
+    if(err) {
+        console.error('error connecting:' + err.stack)
+        return;
+    }
+    console.log('The solution is:', rows[0].solution, 'connected as id:' + connection.threadId)
 })
 
 module.exports = connection

@@ -20,7 +20,7 @@ app.get('/', (req,res) => {
     res.send('Hi Lucky');
 })
 
-app.listen(port || 3000, () => {
+app.listen(port || 3306, () => {
     console.log(`Listening to Port`);
 });
 
