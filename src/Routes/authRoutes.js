@@ -159,7 +159,7 @@ router.post('/signin', async(req,res) => {
 
         const token = jwt.sign({userId: if_verified.id}, 'MY_MEHMAPP_KEY')
 
-        res.status(200).send({token, fullname: user[0][0].firstName})
+        res.status(200).send({token, firstName: user[0][0].firstName})
     }
     else {
         res.status(400).send({message:"Invalid Email or Password"})
