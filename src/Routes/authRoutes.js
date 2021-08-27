@@ -55,7 +55,7 @@ router.post('/signup', async(req, res) => {
                     service: 'gmail',
                     auth: {
                         type: 'OAuth2',
-                        user: 'angelorabosa555@gmail.com',
+                        user: 'luckyangelo.rabosa@cvsu.edu.ph',
                         clientId: CLIENT_ID,
                         clientSecret: CLIENT_SECRET,
                         refreshToken: REFRESH_TOKEN,
