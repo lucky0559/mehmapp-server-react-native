@@ -39,10 +39,10 @@ router.post('/signup', async(req, res) => {
 
 // verify email
         
-        const CLIENT_ID = '141360318944-pj0qnlcj4kclrbrnok4fkduerlan0phd.apps.googleusercontent.com'
-        const CLIENT_SECRET = 'EmI2mCygfueXMrnchCbJcKV2'
+        const CLIENT_ID = '990361057332-3h6cpoksgrn0ed6785jlbd8p3ag6sskl.apps.googleusercontent.com'
+        const CLIENT_SECRET = 'gdYm5p6Q7bOJQqqE0OkmH-JH'
         const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
-        const REFRESH_TOKEN = '1//04jMyI9rGX-mvCgYIARAAGAQSNwF-L9Ir6TIPJzhuSIW9QtpN84rd4wDZhDx_53FBNUK6rcg1V158tRPo9nEzMZuTiGeSPPz2eRA'
+        const REFRESH_TOKEN = '1//04tQ6FVajo_eSCgYIARAAGAQSNwF-L9Irdb3HssWA9Xzj1cgkp8vzJXX1cHXoezO7PEtAnKOUvU3mepmFHiiYPXYFW4xw6Y0OcqA'
 
         const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
         oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN })
