@@ -137,7 +137,7 @@ router.post('/signin', async(req,res) => {
     
 
     if(check[0].length <= 0 ) {
-        return res.status(400).send({message:'Email not Registered'})
+        return res.status(400).send({message:'Unregistered Email'})
     }
     
 
