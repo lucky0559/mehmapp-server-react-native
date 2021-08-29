@@ -51,7 +51,7 @@ router.post('/assessment/:user_id', async(req, res) => {
             //     console.log(response.body);
             // })
 
-            res.status(201).send("Assesment Form Submitted to Guidance Counselor" + email[0]);
+            res.status(201).send("Assesment Form Submitted to Guidance Counselor" + email);
         }
         catch(err) {
             res.send(err);
