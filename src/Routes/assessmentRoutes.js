@@ -46,10 +46,10 @@ router.post('/assessment/:user_id', async(req, res) => {
             //     }
             // };
 
-            request(options, (error, response) => {
-                if(error) throw new Error(error);
-                console.log(response.body);
-            })
+            // request(options, (error, response) => {
+            //     if(error) throw new Error(error);
+            //     console.log(response.body);
+            // })
 
             res.status(201).send("Assesment Form Submitted to Guidance Counselor" + email[0]);
         }
