@@ -30,26 +30,28 @@ router.post('/assessment/:user_id', async(req, res) => {
         try {
             await db.promise().query(`INSERT INTO assessment_form(userId, firstName, lastName,studentNumber, phoneNumber, userdescribe, userPresentIssues, userProblemIssue, userReceivedCounseling, userIfYes, userDuration, userPreviousCounseling) VALUES('${user_id}', '${firstName}', '${lastName}','${student_number}', '${phone_number}', '${describe}', '${presentIssues}', '${problemIssue}', '${radio}', '${when}', '${duration}', '${previousCounseling}')  `)
 
-            var options = {
-                'method': 'POST',
-                'url': 'https://www.itexmo.com/php_api/api.php',
-                'headers': {
+            const email = await db.promise().query(`SELECT email FROM users WHERE id = '${user_id}' `)
 
-                },
-                formData: {
-                    '1': '09167517273',
-                    '2': `MeHMApp user ${student_number} submit a Assessment Form.\nUser Phone Number: ${phone_number}`,
-                    '3': 'TR-MEHMA183839_58WCC',
-                    'passwd': 'vge6a$x[mn'
-                }
-            };
+            // var options = {
+            //     'method': 'POST',
+            //     'url': 'https://www.itexmo.com/php_api/api.php',
+            //     'headers': {
+
+            //     },
+            //     formData: {
+            //         '1': '09955183839',
+            //         '2': `MeHMApp user ${student_number} submit a Assessment Form.\nUser Phone Number: ${phone_number}\nEmail: ${email} `,
+            //         '3': 'TR-MEHMA183839_58WCC',
+            //         'passwd': 'vge6a$x[mn'
+            //     }
+            // };
 
             request(options, (error, response) => {
                 if(error) throw new Error(error);
                 console.log(response.body);
             })
 
-            res.status(201).send("Assesment Form Submitted to Guidance Counselor");
+            res.status(201).send("Assesment Form Submitted to Guidance Counselor" + email);
         }
         catch(err) {
             res.send(err);
