@@ -11,6 +11,7 @@ router.post('/assessment/:user_id', async(req, res) => {
     const user_id = req.params.user_id;
 
     const {
+        email,
         firstName,
         lastName,
         student_number,
@@ -26,11 +27,10 @@ router.post('/assessment/:user_id', async(req, res) => {
 
     
 
-    if(user_id, firstName, lastName, student_number, phone_number, presentIssues, describe,radio) {
+    if(email, user_id, firstName, lastName, student_number, phone_number, presentIssues, describe,radio) {
         try {
             await db.promise().query(`INSERT INTO assessment_form(userId, firstName, lastName,studentNumber, phoneNumber, userdescribe, userPresentIssues, userProblemIssue, userReceivedCounseling, userIfYes, userDuration, userPreviousCounseling) VALUES('${user_id}', '${firstName}', '${lastName}','${student_number}', '${phone_number}', '${describe}', '${presentIssues}', '${problemIssue}', '${radio}', '${when}', '${duration}', '${previousCounseling}')  `)
 
-            const email = await db.promise().query(`SELECT email FROM users WHERE id = '${user_id}' `)
 
             // var options = {
             //     'method': 'POST',
@@ -51,7 +51,7 @@ router.post('/assessment/:user_id', async(req, res) => {
             //     console.log(response.body);
             // })
 
-            res.status(201).send("Assesment Form Submitted to Guidance Counselor" + email[0][0]);
+            res.status(201).send("Assesment Form Submitted to Guidance Counselor" + email);
         }
         catch(err) {
             res.send(err);
