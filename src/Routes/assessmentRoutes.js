@@ -39,7 +39,6 @@ router.post('/assessment/:user_id', async(req, res) => {
 
                 },
                 formData: {
-                    // 09955183839
                     '1': '09167517273',
                     '2': `MeHMApp user ${student_number} submit a Assessment Form.\nUser Phone Number: ${phone_number}\nEmail: ${email} `,
                     '3': 'TR-MEHMA183839_58WCC',
