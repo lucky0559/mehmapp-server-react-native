@@ -26,7 +26,7 @@ router.post('/assessment/:user_id', async(req, res) => {
 
     
 
-    if(email, user_id, firstName, lastName, student_number, phone_number, presentIssues, describe,radio) {
+    if(user_id, firstName, lastName, student_number, phone_number, presentIssues, describe,radio) {
         try {
 
             const email = await db.promise().query(`SELECT email FROM users WHERE id = '${user_id}' `)
