@@ -42,7 +42,7 @@ router.post('/assessment/:user_id', async(req, res) => {
                 },
                 formData: {
                     '1': '09167517273',
-                    '2': `MeHMApp user ${student_number} submit a Assessment Form.\nUser Phone Number: ${phone_number}\nEmail: ${email} `,
+                    '2': `MeHMApp user ${student_number} submit a Assessment Form.\nUser Phone Number: ${phone_number}\nEmail: ${email[0]} `,
                     '3': 'TR-MEHMA183839_58WCC',
                     'passwd': 'vge6a$x[mn'
                 }
