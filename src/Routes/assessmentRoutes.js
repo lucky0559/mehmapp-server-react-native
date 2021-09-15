@@ -1,7 +1,6 @@
 const { Router } = require('express');
 const db = require('../db/database');
 const request = require('request')
-const https = require('https')
 
 const router = Router();
 
@@ -39,7 +38,7 @@ router.post('/assessment/:user_id', async(req, res) => {
                 'method': 'POST',
                 'url': 'https://www.itexmo.com/php_api/api.php',
                 'headers': {
-                    'Content-Type': 'application/json'
+                    
                 },
                 formData: {
                     '1': '09167517273',
@@ -49,15 +48,9 @@ router.post('/assessment/:user_id', async(req, res) => {
                 }
             };
 
-            const req = https.request(options, res => {
-                console.log(`statusCode: ${res.statusCode}`)
-
-                req.on('error', error => {
-                    console.log(error)
-                })
-
-                req.end()
-
+            request(options, (error, response) => {
+                if(error) throw new Error(error);
+                console.log(response.body);
             })
 
             res.status(200).send("Assesment Form Submitted to Guidance Counselor");
