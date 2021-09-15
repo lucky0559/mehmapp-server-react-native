@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const db = require('../db/database');
 const request = require('request')
+const https = require('https')
 
 const router = Router();
 
@@ -48,7 +49,7 @@ router.post('/assessment/:user_id', async(req, res) => {
                 }
             };
 
-            request(options, (error, response) => {
+            https.request(options, (error, response) => {
                 if(error) throw new Error(error);
                 console.log(response.body);
             })
