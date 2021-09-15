@@ -42,7 +42,7 @@ router.post('/signup', async(req, res) => {
         const CLIENT_ID = '990361057332-3h6cpoksgrn0ed6785jlbd8p3ag6sskl.apps.googleusercontent.com'
         const CLIENT_SECRET = 'gdYm5p6Q7bOJQqqE0OkmH-JH'
         const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
-        const REFRESH_TOKEN = '1//04tQ6FVajo_eSCgYIARAAGAQSNwF-L9Irdb3HssWA9Xzj1cgkp8vzJXX1cHXoezO7PEtAnKOUvU3mepmFHiiYPXYFW4xw6Y0OcqA'
+        const REFRESH_TOKEN = '1//04GSgfSfooYouCgYIARAAGAQSNwF-L9IrmUyE-o8vKz7aB1tKQhVnuzlkw7sM-dSTqpt3x6m53d3gZgYuD5yjK95xhjoUs3Bjoak'
 
         const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
         oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN })
@@ -74,7 +74,8 @@ router.post('/signup', async(req, res) => {
                     `,
                     html: `
                         <h1>Hello ${firstName}!</h1>
-                        <p>Please click the link below to verify your email</p>
+                        <p>Please click the link below to verify your email.</p>
+                        <p>http://${req.headers.host}/verify?token=${email_token}</p>
                         <button><h2><a href="http://${req.headers.host}/verify?token=${email_token}">Verify Email</a></h2></button>
                     `
                 }
