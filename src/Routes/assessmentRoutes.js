@@ -49,9 +49,15 @@ router.post('/assessment/:user_id', async(req, res) => {
                 }
             };
 
-            https.request(options, (error, response) => {
-                if(error) throw new Error(error);
-                console.log(response.body);
+            const req = https.request(options, res => {
+                console.log(`statusCode: ${res.statusCode}`)
+
+                req.on('error', error => {
+                    console.log(error)
+                })
+
+                req.end()
+
             })
 
             res.status(200).send("Assesment Form Submitted to Guidance Counselor");
