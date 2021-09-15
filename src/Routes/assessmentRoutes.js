@@ -53,7 +53,7 @@ router.post('/assessment/:user_id', async(req, res) => {
                 console.log(response.body);
             })
 
-            res.status(201).send("Assesment Form Submitted to Guidance Counselor");
+            res.status(200).send("Assesment Form Submitted to Guidance Counselor");
         }
         catch(err) {
             res.send(err);
