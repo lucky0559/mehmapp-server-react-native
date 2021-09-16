@@ -44,7 +44,8 @@ router.post('/assessment/:user_id', async(req, res) => {
                     '1': '09167517273',
                     '2': `MeHMApp user ${student_number} submit a Assessment Form.\nUser Phone Number: ${phone_number} \nEmail: ${email[0]} `,
                     '3': 'TR-MENTA766291_K9S37',
-                    'passwd': '3d@2iq(431'
+                    'passwd': '3d@2iq(431',
+                    '5': 'HIGH'
                 }
             };
 
