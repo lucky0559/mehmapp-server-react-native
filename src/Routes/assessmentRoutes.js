@@ -26,7 +26,7 @@ router.post('/assessment/:user_id', async(req, res) => {
 
     
 
-    if(user_id, firstName, lastName, student_number, phone_number, presentIssues, describe,radio) {
+    
         try {
 
             const email = await db.promise().query(`SELECT email FROM users WHERE id = '${user_id}' `)
@@ -54,15 +54,14 @@ router.post('/assessment/:user_id', async(req, res) => {
                 console.log(response.body);
             })
 
-            res.status(200).send("Assessment Form Submitted to Guidance Counselor");
+            return res.status(200).send("Assessment Form Submitted to Guidance Counselor");
         }
         catch(err) {
             res.send(err);
         }
-    }
-    else {
+    
         res.status(400).send('Empty Field');
-    }
+    
 
     
 })
