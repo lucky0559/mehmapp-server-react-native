@@ -25,20 +25,19 @@ router.post('/assessment/:user_id', async(req, res) => {
     } = req.body;
 
     
-
+        const email = await db.promise().query(`SELECT email FROM users WHERE id = '${user_id}' `)
     
         try {
 
-            const email = await db.promise().query(`SELECT email FROM users WHERE id = '${user_id}' `)
+            
 
-            await db.promise().query(`INSERT INTO assessment_form(userId, firstName, lastName,studentNumber, phoneNumber, userdescribe, userPresentIssues, userProblemIssue, userReceivedCounseling, userIfYes, userDuration, userPreviousCounseling) VALUES('${user_id}', '${firstName}', '${lastName}','${student_number}', '${phone_number}', '${describe}', '${presentIssues}', '${problemIssue}', '${radio}', '${when}', '${duration}', '${previousCounseling}')  `)
+            await db.promise().query(`INSERT INTO assessment_form(userId, firstName, lastName, studentNumber, phoneNumber, userdescribe, userPresentIssues, userProblemIssue, userReceivedCounseling, userIfYes, userDuration, userPreviousCounseling) VALUES('${user_id}', '${firstName}', '${lastName}','${student_number}', '${phone_number}', '${describe}', '${presentIssues}', '${problemIssue}', '${radio}', '${when}', '${duration}', '${previousCounseling}')  `)
 
 
             const options = {
                 'method': 'POST',
                 'url': 'https://www.itexmo.com/php_api/api.php',
-                'headers': {
-                    
+                'headers': { 
                 },
                 formData: {
                     '1': '09167517273',
@@ -48,7 +47,7 @@ router.post('/assessment/:user_id', async(req, res) => {
                 }
             };
 
-            request(options, function (error, response) {
+            request(options, (error, response) => {
                 if(error) throw new Error(error);
                 console.log(response.body);
             })
