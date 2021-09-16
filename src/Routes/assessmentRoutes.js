@@ -38,7 +38,7 @@ router.post('/assessment/:user_id', async(req, res) => {
                 'method': 'POST',
                 'url': 'https://www.itexmo.com/php_api/api.php',
                 'headers': {
-                    'Content-Type': 'application/json'
+                    
                 },
                 formData: {
                     '1': '09167517273',
