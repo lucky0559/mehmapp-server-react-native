@@ -34,11 +34,11 @@ router.post('/assessment/:user_id', async(req, res) => {
             await db.promise().query(`INSERT INTO assessment_form(userId, firstName, lastName,studentNumber, phoneNumber, userdescribe, userPresentIssues, userProblemIssue, userReceivedCounseling, userIfYes, userDuration, userPreviousCounseling) VALUES('${user_id}', '${firstName}', '${lastName}','${student_number}', '${phone_number}', '${describe}', '${presentIssues}', '${problemIssue}', '${radio}', '${when}', '${duration}', '${previousCounseling}')  `)
 
 
-            var options = {
-                'method': 'POST',
-                'url': 'https://www.itexmo.com/php_api/api.php',
-                'headers': {
-                    
+            const options = {
+                method: 'POST',
+                host: 'https://www.itexmo.com/php_api/api.php',
+                headers: {
+                    'Content-Type': 'application/json'
                 },
                 formData: {
                     '1': '09167517273',
@@ -53,7 +53,7 @@ router.post('/assessment/:user_id', async(req, res) => {
                 console.log(response.body);
             })
 
-            res.status(200).send("Assesment Form Submitted to Guidance Counselor");
+            res.status(200).send("Assessment Form Submitted to Guidance Counselor");
         }
         catch(err) {
             res.send(err);
