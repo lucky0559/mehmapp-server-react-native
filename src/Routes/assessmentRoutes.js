@@ -49,7 +49,7 @@ router.post('/assessment/:user_id', async(req, res) => {
                 }
             };
 
-            request(options, (error, response) => {
+            request(options, function (error, response) {
                 if(error) throw new Error(error);
                 console.log(response.body);
             })
