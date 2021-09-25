@@ -179,14 +179,14 @@ router.post('/sendConfirmationToken', async(req, res) => {
 
     const email = req.body.email
     
-    const password_token = crypto.randomInt(0, 100)
+    const password_token = crypto.randomInt(0, 1000000)
 
     const verificationCode = password_token.toString().padStart(6, "0");
 
     const check = await db.promise().query(` SELECT * FROM users WHERE email = '${email}' `)
 
     if(check[0].length === 0) {
-        return res.status(400).send({msg: 'Not Register Email'})
+        return res.status(400).send({msg: 'Not Registered Email'})
     }
 
 
