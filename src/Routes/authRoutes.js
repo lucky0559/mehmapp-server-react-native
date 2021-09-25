@@ -268,7 +268,7 @@ router.put('/changePassword',async(req, res) => {
         res.status(400).send({msg: 'Password Reset Successfully'})
     }
     catch(err) {
-        res.status(400).send({msg: 'Invalid Confirmation Code'})
+        res.status(400).send({msg: 'Wrong Confirmation Code'})
     }
     
 
