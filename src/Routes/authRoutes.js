@@ -7,6 +7,9 @@ const { google } = require('googleapis')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 
+const all_refresh_token = '1//04tWqy1JCtxmbCgYIARAAGAQSNwF-L9IrSuSQi2eSMBoXqwZdNy0FFfJltfvbeHOv5oABukbWompvljHAu3eL0ASnbdar1xXC5M0'
+
+
 
 const router = express.Router();
 
@@ -42,7 +45,7 @@ router.post('/signup', async(req, res) => {
         const CLIENT_ID = '990361057332-3h6cpoksgrn0ed6785jlbd8p3ag6sskl.apps.googleusercontent.com'
         const CLIENT_SECRET = 'gdYm5p6Q7bOJQqqE0OkmH-JH'
         const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
-        const REFRESH_TOKEN = '1//04GSgfSfooYouCgYIARAAGAQSNwF-L9IrmUyE-o8vKz7aB1tKQhVnuzlkw7sM-dSTqpt3x6m53d3gZgYuD5yjK95xhjoUs3Bjoak'
+        const REFRESH_TOKEN = all_refresh_token
 
         const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
         oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN })
@@ -168,6 +171,104 @@ router.post('/signin', async(req,res) => {
 
 
    
+})
+
+
+router.post('/sendConfirmationToken', async(req, res) => {
+    try{
+
+    const email = req.body.email
+    
+    const password_token = crypto.randomInt(0, 100)
+
+    const verificationCode = password_token.toString().padStart(6, "0");
+
+    const check = await db.promise().query(` SELECT * FROM users WHERE email = '${email}' `)
+
+    if(check[0].length === 0) {
+        return res.status(400).send({msg: 'Not Register Email'})
+    }
+
+
+    await db.promise().query(` UPDATE users SET password_token = '${verificationCode}' WHERE email = '${email}' `)
+
+    const CLIENT_ID = '990361057332-3h6cpoksgrn0ed6785jlbd8p3ag6sskl.apps.googleusercontent.com'
+        const CLIENT_SECRET = 'gdYm5p6Q7bOJQqqE0OkmH-JH'
+        const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
+        const REFRESH_TOKEN = all_refresh_token
+
+        const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
+        oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN })
+
+        sendMail = async() => {
+            try {
+                const accessToken = await oAuth2Client.getAccessToken();
+                
+                const transport = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        type: 'OAuth2',
+                        user: 'luckyangelo.rabosa@cvsu.edu.ph',
+                        clientId: CLIENT_ID,
+                        clientSecret: CLIENT_SECRET,
+                        refreshToken: REFRESH_TOKEN,
+                        accessToken: accessToken
+                    }
+                })
+
+                const mailOptions = {
+                    from: 'MeHMApp <mehmapp@cvsu.edu.ph>',
+                    to: `${email}`,
+                    subject: 'MeHMApp Reset Password',
+                    text: `
+                        This is your Confirmation Code ${verificationCode}
+                    `,
+                    html: `
+                        <h2>Your Confirmation Code ${verificationCode}</h2>
+                    `
+                }
+
+                const result = await transport.sendMail(mailOptions)
+                return result
+
+            }
+            catch(error) {
+                return error
+            }
+        }
+
+        sendMail().then(result => console.log('Email is Sent', result))
+        .catch(error => console.log(error.message))
+    }
+    catch(err) {
+        res.status(400).send({msg: 'Error'})
+    }
+
+})
+
+
+router.put('/changePassword',async(req, res) => {
+
+    try {
+        const {email, new_password, password_token} = req.body
+
+        const new_hash = await bcryptjs.hash(new_password, saltRounds)
+
+        const check = await db.promise().query(` SELECT * FROM users WHERE email = '${email}' && password_token = '${password_token}' `)
+
+        if(check[0].length === 0) {
+            return res.status(400).send({msg: 'Invalid Confirmation Code'})
+        }
+
+        await db.promise().query(` UPDATE users SET password = '${new_hash}', password_token = '${''}' WHERE email = '${email}' && password_token = '${password_token}' `)
+
+        res.status(400).send({msg: 'Password Reset Successfully'})
+    }
+    catch(err) {
+        res.status(400).send({msg: 'Invalid Confirmation Code'})
+    }
+    
+
 })
 
 
