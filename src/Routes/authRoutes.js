@@ -229,7 +229,7 @@ router.post('/sendConfirmationToken', async(req, res) => {
                 }
 
                 const result = await transport.sendMail(mailOptions)
-                return res.status(200).send(result)
+                return result
 
             }
             catch(error) {
@@ -237,8 +237,11 @@ router.post('/sendConfirmationToken', async(req, res) => {
             }
         }
 
-        sendMail().then(result => console.log('Email is Sent', result))
+        sendMail().then(result => console.log('Code is Sent', result))
         .catch(error => console.log(error.message))
+
+        res.status(200).send({message:'Confirmation Code sent'})
+
     }
     catch(err) {
         res.status(400).send({msg: 'Error'})
