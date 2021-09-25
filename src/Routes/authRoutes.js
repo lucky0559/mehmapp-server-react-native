@@ -265,7 +265,7 @@ router.put('/changePassword',async(req, res) => {
 
         await db.promise().query(` UPDATE users SET password = '${new_hash}', password_token = '${''}' WHERE email = '${email}' && password_token = '${password_token}' `)
 
-        res.status(400).send({msg: 'Password Reset Successfully'})
+        res.status(200).send({msg: 'Password Reset Successfully'})
     }
     catch(err) {
         res.status(400).send({msg: 'Wrong Confirmation Code'})
