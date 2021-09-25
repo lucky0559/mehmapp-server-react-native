@@ -229,7 +229,7 @@ router.post('/sendConfirmationToken', async(req, res) => {
                 }
 
                 const result = await transport.sendMail(mailOptions)
-                return result
+                return res.status(200).send(result)
 
             }
             catch(error) {
