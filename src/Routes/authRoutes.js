@@ -25,7 +25,7 @@ router.post('/signup', async(req, res) => {
     const check = await db.promise().query(`SELECT * FROM users WHERE email = '${email}' `);
 
     if(check[0].length > 0) {
-        return res.status(400).send({message:'This email is already used'});
+        return res.status(422).send({message:'This email is already used'});
     }
 
 
@@ -33,7 +33,7 @@ router.post('/signup', async(req, res) => {
  
     try {
 
-        await db.promise().query(`INSERT INTO users(firstName, lastName, email, password, phoneNumber, studentNumber, is_verified, email_token) VALUES('${firstName}', '${lastName}', '${email}', '${password_hashed}', '${phoneNumber}', '${studentNumber}', '${is_verified}', '${email_token}') `)
+        await db.promise().query(`INSERT INTO users(firstName, lastName, email, password, phoneNumber, studentNumber, is_verified, email_token, password_token) VALUES('${firstName}', '${lastName}', '${email}', '${password_hashed}', '${phoneNumber}', '${studentNumber}', '${is_verified}', '${email_token}', '${''}') `)
 
 
         const user = await db.promise().query(`SELECT * FROM users WHERE email = '${email}' `)
