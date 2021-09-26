@@ -25,7 +25,7 @@ router.post('/signup', async(req, res) => {
     const check = await db.promise().query(`SELECT * FROM users WHERE email = '${email}' `);
 
     if(check[0].length > 0) {
-        return res.status(422).send({message:'This email is already used'});
+        return res.status(400).send({message:'This email is already used'});
     }
 
 
