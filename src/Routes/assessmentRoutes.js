@@ -25,7 +25,7 @@ router.post('/assessment/:user_id', async(req, res) => {
     } = req.body;
 
     
-        const email = await db.promise().query(`SELECT email FROM users WHERE id = '${user_id}' `)
+        // const email = await db.promise().query(`SELECT email FROM users WHERE id = '${user_id}' `)
     
         try {
 
