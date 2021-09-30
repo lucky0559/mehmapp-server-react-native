@@ -38,6 +38,7 @@ router.post('/assessment/:user_id', async(req, res) => {
                 'method': 'POST',
                 'url': 'https://www.itexmo.com/php_api/api.php',
                 'headers': { 
+
                 },
                 formData: {
                     '1': '09167517273',
@@ -55,7 +56,7 @@ router.post('/assessment/:user_id', async(req, res) => {
             return res.status(200).send("Assessment Form Submitted to Guidance Counselor");
         }
         catch(err) {
-            res.send(err);
+            return res.send(err);
         }
     
         res.status(400).send('Empty Field');
