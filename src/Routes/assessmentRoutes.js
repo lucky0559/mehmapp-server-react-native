@@ -56,10 +56,9 @@ router.post('/assessment/:user_id', async(req, res) => {
             return res.status(200).send("Assessment Form Submitted to Guidance Counselor");
         }
         catch(err) {
-            return res.send(err);
+            res.send(err);
         }
     
-        res.status(400).send('Empty Field');
     
 
     
