@@ -31,7 +31,6 @@ router.post("/assessment/:user_id", async (req, res) => {
     const options = {
       method: "POST",
       url: "https://www.itexmo.com/php_api/api.php",
-      headers: {},
       formData: {
         1: "09167517273",
         2: `MeHMApp-user ${student_number} with User ID ${user_id} submit a Assessment Form.\nUser Phone Number:${phone_number}`,
