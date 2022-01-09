@@ -8,7 +8,7 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 
 const all_refresh_token =
-  "1//04JWAlnVnZOZdCgYIARAAGAQSNwF-L9IrB2FHA8iP3zx7IG78dH1L0fZaDZGfITvezZKDkeiL0EZCrVdIPxAiLgU8fp6sHfUiSoY";
+  "1//04JWAlnVnZOZdCgYIARAAGAQSNwF-L9IrB2FHA8iP3zx7IG78dH1L0fZaDZGfITvezZKDkeiL0EZCrVdIPxAiLgU8fp6sHfUiSoYz";
 
 // clientID = 990361057332-3h6cpoksgrn0ed6785jlbd8p3ag6sskl.apps.googleusercontent.com
 // clientSecret = gdYm5p6Q7bOJQqqE0OkmH-JH
@@ -172,16 +172,14 @@ router.post("/signin", async (req, res) => {
 
     const token = jwt.sign({ userId: if_verified.id }, "MY_MEHMAPP_KEY");
 
-    res
-      .status(200)
-      .send({
-        token,
-        firstName: user[0][0].firstName,
-        lastName: user[0][0].lastName,
-        user_id: user[0][0].id,
-        student_number: user[0][0].studentNumber,
-        phone_number: user[0][0].phoneNumber
-      });
+    res.status(200).send({
+      token,
+      firstName: user[0][0].firstName,
+      lastName: user[0][0].lastName,
+      user_id: user[0][0].id,
+      student_number: user[0][0].studentNumber,
+      phone_number: user[0][0].phoneNumber
+    });
   } else {
     res.status(400).send({ message: "Invalid Email or Password" });
   }
