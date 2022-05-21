@@ -16,7 +16,7 @@ const all_refresh_token =
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
-  const { firstName, lastName, email, phoneNumber, studentNumber } = req.body;
+  const { firstName, lastName, email, phoneNumber, studentNumber, course } = req.body;
 
   const password = req.body.password;
   const password_hashed = await bcryptjs.hash(password, saltRounds);
@@ -36,7 +36,7 @@ router.post("/signup", async (req, res) => {
     await db
       .promise()
       .query(
-        `INSERT INTO users(firstName, lastName, email, password, phoneNumber, studentNumber, is_verified, email_token, password_token) VALUES('${firstName}', '${lastName}', '${email}', '${password_hashed}', '${phoneNumber}', '${studentNumber}', '${is_verified}', '${email_token}', '${""}') `
+        `INSERT INTO users(firstName, lastName, email, password, phoneNumber, studentNumber, is_verified, email_token, password_token, course) VALUES('${firstName}', '${lastName}', '${email}', '${password_hashed}', '${phoneNumber}', '${studentNumber}', '${is_verified}', '${email_token}', '${""}', '${course}') `
       );
 
     const user = await db
