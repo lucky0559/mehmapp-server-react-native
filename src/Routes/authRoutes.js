@@ -36,7 +36,7 @@ router.post("/signup", async (req, res) => {
     await db
       .promise()
       .query(
-        `INSERT INTO users(firstName, lastName, email, password, phoneNumber, studentNumber, is_verified, email_token, password_token, course) VALUES('${firstName}', '${lastName}', '${email}', '${password_hashed}', '${phone_number}', '${student_number}', '${is_verified}', '${email_token}', '${""}', '${course}') `
+        `INSERT INTO users(firstName, lastName, email, password, phoneNumber, studentNumber, is_verified, email_token, password_token, course, nature) VALUES('${firstName}', '${lastName}', '${email}', '${password_hashed}', '${phone_number}', '${student_number}', '${is_verified}', '${email_token}', '${""}', '${course}', '${""}') `
       );
 
     const user = await db
