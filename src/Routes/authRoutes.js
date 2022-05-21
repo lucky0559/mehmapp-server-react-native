@@ -47,62 +47,62 @@ router.post("/signup", async (req, res) => {
 
     // verify email
 
-    const CLIENT_ID =
-      "990361057332-3h6cpoksgrn0ed6785jlbd8p3ag6sskl.apps.googleusercontent.com";
-    const CLIENT_SECRET = "gdYm5p6Q7bOJQqqE0OkmH-JH";
-    const REDIRECT_URI = "https://developers.google.com/oauthplayground";
-    const REFRESH_TOKEN = all_refresh_token;
+    // const CLIENT_ID =
+    //   "990361057332-3h6cpoksgrn0ed6785jlbd8p3ag6sskl.apps.googleusercontent.com";
+    // const CLIENT_SECRET = "gdYm5p6Q7bOJQqqE0OkmH-JH";
+    // const REDIRECT_URI = "https://developers.google.com/oauthplayground";
+    // const REFRESH_TOKEN = all_refresh_token;
 
-    const oAuth2Client = new google.auth.OAuth2(
-      CLIENT_ID,
-      CLIENT_SECRET,
-      REDIRECT_URI
-    );
-    oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+    // const oAuth2Client = new google.auth.OAuth2(
+    //   CLIENT_ID,
+    //   CLIENT_SECRET,
+    //   REDIRECT_URI
+    // );
+    // oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
-    sendMail = async () => {
-      try {
-        const accessToken = await oAuth2Client.getAccessToken();
+    // sendMail = async () => {
+    //   try {
+    //     const accessToken = await oAuth2Client.getAccessToken();
 
-        const transport = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            type: "OAuth2",
-            user: "luckyangelo.rabosa@cvsu.edu.ph",
-            clientId: CLIENT_ID,
-            clientSecret: CLIENT_SECRET,
-            refreshToken: REFRESH_TOKEN,
-            accessToken: accessToken
-          }
-        });
+    //     const transport = nodemailer.createTransport({
+    //       service: "gmail",
+    //       auth: {
+    //         type: "OAuth2",
+    //         user: "luckyangelo.rabosa@cvsu.edu.ph",
+    //         clientId: CLIENT_ID,
+    //         clientSecret: CLIENT_SECRET,
+    //         refreshToken: REFRESH_TOKEN,
+    //         accessToken: accessToken
+    //       }
+    //     });
 
-        const mailOptions = {
-          from: "MeHMApp <mehmapp@cvsu.edu.ph>",
-          to: `${email}`,
-          subject: "MeHMApp Verify Your Email",
-          text: `
-                        Hello ${firstName}!
-                        Please click the link below to verify your email
-                        http://${req.headers.host}/verify?token=${email_token}
-                    `,
-          html: `
-                        <h1>Hello ${firstName}!</h1>
-                        <p>Please click the link below to verify your email.</p>
-                        <p>http://${req.headers.host}/verify?token=${email_token}</p>
-                        <button><h2><a href="http://${req.headers.host}/verify?token=${email_token}">Verify Email</a></h2></button>
-                    `
-        };
+    //     const mailOptions = {
+    //       from: "MeHMApp <mehmapp@cvsu.edu.ph>",
+    //       to: `${email}`,
+    //       subject: "MeHMApp Verify Your Email",
+    //       text: `
+    //                     Hello ${firstName}!
+    //                     Please click the link below to verify your email
+    //                     http://${req.headers.host}/verify?token=${email_token}
+    //                 `,
+    //       html: `
+    //                     <h1>Hello ${firstName}!</h1>
+    //                     <p>Please click the link below to verify your email.</p>
+    //                     <p>http://${req.headers.host}/verify?token=${email_token}</p>
+    //                     <button><h2><a href="http://${req.headers.host}/verify?token=${email_token}">Verify Email</a></h2></button>
+    //                 `
+    //     };
 
-        const result = await transport.sendMail(mailOptions);
-        return result;
-      } catch (error) {
-        return error;
-      }
-    };
+    //     const result = await transport.sendMail(mailOptions);
+    //     return result;
+    //   } catch (error) {
+    //     return error;
+    //   }
+    // };
 
-    sendMail()
-      .then(result => console.log("Email is Sent", result))
-      .catch(error => console.log(error.message));
+    // sendMail()
+    //   .then(result => console.log("Email is Sent", result))
+    //   .catch(error => console.log(error.message));
 
     res
       .status(200)
